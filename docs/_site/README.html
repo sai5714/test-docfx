@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Description | DocFX Hackathon Project </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Description | DocFX Hackathon Project ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="">
+    
+    <meta property="docfx:rel" content="">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="description">Description</h1>
+
+<p>This is classic 2-tier application with frontend that renders server-side.</p>
+<ul>
+<li>Main storage is Postgres Database <code>10+ Version</code></li>
+<li>Python version <code>3.10</code></li>
+<li>Django version <code>4.0</code>.</li>
+</ul>
+<h1 id="endpoints">Endpoints</h1>
+<p>Application consists of two major applications.</p>
+<ol>
+<li><code>/admin/</code> - Super Admin interface that uses default django authorization mechanism
+and provides full access to all database entities.</li>
+</ol>
+<blockquote>
+<p>It implies that this endpoint will be accessible only to certain set of IP address.
+These rules should be defined on upper level, for instance through extra rules in Kubernetes Ingress or inside nginx config file.</p>
+</blockquote>
+<ol start="2">
+<li><code>/</code> - Main application that uses AppDirect oauth identity provider to grant access</li>
+</ol>
+<h1 id="configuration">Configuration</h1>
+<p>This project uses <a href="https://www.dynaconf.com/">dynaconf</a> to meet <a href="https://www.12factor.net/">12 factor app</a>
+requirements in part of <a href="https://www.12factor.net/config">configuration</a></p>
+<p>All base django settings are stored in <code>settings.yaml</code> file in repository root
+and should be treated as final.
+Also, any <a href="https://docs.djangoproject.com/en/4.0/topics/settings/">Django Setting</a>
+can be overridden in dynaconf manner.</p>
+<h2 id="override-via-environment-variables">Override via environment variables</h2>
+<p><em>Example #1:</em></p>
+<pre><code>DATABASES:
+  default:
+    ENGINE: django.db.backends.sqlite3
+</code></pre>
+<p>Can be overridden with</p>
+<pre><code>export DJANGO_DATABASES__default__ENGINE=django.db.backends.postgresql
+</code></pre>
+<p>Note: that all variables to override must be prefixed with <code>DJANGO_</code></p>
+<p><em>Example #2:</em></p>
+<p>To override env via <code>.env</code> put file into workdir with content</p>
+<pre><code>DJANGO_DATABASES__default__ENGINE=django.db.backends.postgresql
+</code></pre>
+<blockquote>
+<p>See: docker-compose.env</p>
+</blockquote>
+<blockquote>
+<p>Also, you can override settings in different manners,
+check dynaconf <a href="https://www.dynaconf.com/configuration/">documentation</a> for certain use case.</p>
+</blockquote>
+<h1 id="run-development-environment">Run development environment</h1>
+<p>Create empy <code>.env</code> file in repository root with content:</p>
+<pre><code>DJANGO_DEBUG=true
+PYTHONUNBUFFERED=1
+</code></pre>
+<p>Build initial images</p>
+<pre><code>docker-compose build 
+</code></pre>
+<p>Run composition in development mode</p>
+<pre><code>docker-compose up --build 
+</code></pre>
+<h1 id="contributing">Contributing</h1>
+<h2 id="build-initial-images">Build initial images</h2>
+<pre><code>docker-compose build
+</code></pre>
+<h2 id="poetry">Poetry</h2>
+<p>This project uses <a href="https://python-poetry.org/">poetry</a> as package manager.</p>
+<h3 id="lock-poetry">Lock poetry</h3>
+<p>User this snippet to lock inside Docker. Before that you wil</p>
+<pre><code>docker run -it -v $(pwd)/:/tmp/workspace --platform=linux/amd64 --entrypoint=poetry -w /tmp/workspace ad-help-center:local lock
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AppDirect/architecture/blob/master/README.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
